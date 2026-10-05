@@ -1,0 +1,398 @@
+@import "tailwindcss";
+
+@theme {
+  --color-creme: #f3ece0;
+  --color-areia: #eadfcd;
+  --color-papel: #fbf7f0;
+  --color-tinta: #17110f;
+  --color-fio: #d62b1f;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-texto: "Instrument Sans", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-creme);
+    color: var(--color-tinta);
+  }
+  body {
+    font-family: var(--font-texto);
+    font-size: 18px;
+    line-height: 1.55;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-fio);
+    color: var(--color-papel);
+  }
+  a:focus-visible {
+    outline: 2px solid var(--color-fio);
+    outline-offset: 4px;
+  }
+}
+
+@layer components {
+  /* ---------- tipografia: escala 15 / 18 / 24 / 36 / 56 / 96 / 152 ---------- */
+  .rotulo {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .suave {
+    color: color-mix(in srgb, currentColor 68%, transparent);
+  }
+  .masthead {
+    font-family: var(--font-display);
+    font-size: clamp(76px, 21.5vw, 360px);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 0.82;
+    padding-bottom: 0.13em; /* espaço para a perna do g */
+  }
+  .t-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 3.6vw, 56px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+  }
+  .t-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6.2vw, 96px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+  }
+  .t-h3 {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .t-declaracao {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 9.4vw, 152px);
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+  }
+  .t-etapa {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 6.6vw, 96px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+  }
+  .t-fecho {
+    font-family: var(--font-display);
+    font-size: clamp(64px, 13vw, 200px);
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 0.86;
+  }
+
+  .provisorio {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 8px;
+    border: 1px dashed currentColor;
+    border-radius: 999px;
+    font-family: var(--font-texto);
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    text-transform: uppercase;
+    vertical-align: middle;
+    opacity: 0.7;
+  }
+
+  /* ---------- o fio ---------- */
+  .fio {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .fio path,
+  .traco {
+    fill: none;
+    stroke: var(--color-fio);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .medidor {
+    fill: none;
+    stroke: none;
+  }
+
+  /* ---------- textura de papel ---------- */
+  .grao {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- cena 1: chegada ---------- */
+  .chegada {
+    --cx: 62%;
+    --cw: clamp(220px, 70vw, 300px);
+    --apice: 104px;
+    --horizonte: 560px;
+  }
+  /* no celular a abertura tem a altura do conteúdo: este respiro guarda o lugar do cão */
+  .chegada-texto {
+    padding-bottom: calc(var(--apice) + var(--cw) * 0.6315 + 28px);
+  }
+  @media (min-width: 768px) {
+    .chegada {
+      --cx: 70%;
+      --cw: clamp(260px, 27vw, 430px);
+      --apice: 17svh;
+      --horizonte: 70svh;
+    }
+    .chegada-texto {
+      padding-bottom: 0;
+    }
+  }
+  .horizonte {
+    position: absolute;
+    z-index: 2;
+    left: calc(var(--cx) - 90vw);
+    bottom: calc(var(--apice) - var(--horizonte));
+    width: 180vw;
+    height: var(--horizonte);
+    border-radius: 50%;
+    background: var(--color-creme);
+  }
+  .cao {
+    position: absolute;
+    z-index: 1;
+    left: calc(var(--cx) - var(--cw) / 2);
+    bottom: calc(var(--apice) - var(--cw) * 0.1188);
+    width: var(--cw);
+    aspect-ratio: 320 / 240;
+  }
+  .cao-patas {
+    z-index: 3;
+  }
+
+  /* ---------- cena 2: selo giratório ---------- */
+  .selo svg {
+    animation: girar 26s linear infinite;
+  }
+  @keyframes girar {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ---------- cena 3: o pico ---------- */
+  .pico-traco {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .pico-traco .guia {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-dasharray: 2 10;
+    opacity: 0.22;
+  }
+  .pico-etapas {
+    display: grid;
+  }
+  .pico-mini {
+    display: none;
+  }
+  .pico-lista li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.38;
+    transition: opacity 0.4s ease;
+  }
+  .pico-lista li::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-fio);
+    transform: scale(0);
+    transition: transform 0.4s ease;
+  }
+  .pico[data-etapa="1"] .pico-lista li:nth-child(1),
+  .pico[data-etapa="2"] .pico-lista li:nth-child(2),
+  .pico[data-etapa="3"] .pico-lista li:nth-child(3),
+  .pico[data-etapa="4"] .pico-lista li:nth-child(4),
+  .pico[data-etapa="5"] .pico-lista li:nth-child(5),
+  .pico[data-etapa="6"] .pico-lista li:nth-child(6) {
+    opacity: 1;
+  }
+  .pico[data-etapa="1"] .pico-lista li:nth-child(1)::before,
+  .pico[data-etapa="2"] .pico-lista li:nth-child(2)::before,
+  .pico[data-etapa="3"] .pico-lista li:nth-child(3)::before,
+  .pico[data-etapa="4"] .pico-lista li:nth-child(4)::before,
+  .pico[data-etapa="5"] .pico-lista li:nth-child(5)::before,
+  .pico[data-etapa="6"] .pico-lista li:nth-child(6)::before {
+    transform: scale(1);
+  }
+
+  /* ---------- cena 4: o varal do petshop ---------- */
+  .varal-fio {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .varal-cartao {
+    position: relative;
+    flex: 0 0 auto;
+    width: min(78vw, 420px);
+    margin-top: calc(25dvh + 16px);
+    padding: 16px 16px 28px;
+    border-radius: 28px;
+    background: var(--color-papel);
+    color: var(--color-tinta);
+    box-shadow: 0 1px 0 rgb(23 17 15 / 0.06), 0 28px 48px -34px rgb(23 17 15 / 0.4);
+    transform-origin: 50% 0;
+  }
+  @media (min-width: 768px) {
+    .varal-cartao {
+      margin-top: calc(21dvh + 16px);
+    }
+  }
+  .pregador {
+    position: absolute;
+    left: 50%;
+    top: -28px;
+    width: 12px;
+    height: 36px;
+    margin-left: -6px;
+    border-radius: 4px;
+    background: var(--color-tinta);
+  }
+
+  /* ---------- cena 6: o botão ---------- */
+  .botao-grande {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 22px 20px;
+    border-radius: 999px;
+    background: var(--color-fio);
+    color: var(--color-papel);
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  @media (min-width: 768px) {
+    .botao-grande {
+      gap: 16px;
+      padding: 24px 40px;
+    }
+  }
+  .botao-grande:hover {
+    background: var(--color-tinta);
+  }
+}
+
+/* As regras abaixo ficam fora de @layer de propósito: o CSS do motor não usa
+   camadas, e só regras também sem camada conseguem sobrepor as dele. */
+
+/* ---------- cena 3: uma etapa por vez (o motor só cobre até 5) ---------- */
+.pico .pico-etapas .fx-etapa {
+  grid-area: 1 / 1;
+  align-self: start;
+  pointer-events: none;
+  transform: translateY(18px);
+  transition: opacity 0.45s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (min-width: 768px) {
+  .pico .pico-etapas .fx-etapa {
+    align-self: end;
+  }
+}
+.pico[data-etapa="1"] .pico-etapas .fx-etapa:nth-of-type(1),
+.pico[data-etapa="2"] .pico-etapas .fx-etapa:nth-of-type(2),
+.pico[data-etapa="3"] .pico-etapas .fx-etapa:nth-of-type(3),
+.pico[data-etapa="4"] .pico-etapas .fx-etapa:nth-of-type(4),
+.pico[data-etapa="5"] .pico-etapas .fx-etapa:nth-of-type(5),
+.pico[data-etapa="6"] .pico-etapas .fx-etapa:nth-of-type(6) {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+/* ---------- movimento reduzido: as cenas fixas viram blocos comuns ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .selo svg {
+    animation: none;
+  }
+}
+.fx-reduzido .pico .fx-palco {
+  display: block;
+  padding: 104px 6vw;
+}
+.fx-reduzido .pico .fx-palco > * {
+  position: static;
+}
+.fx-reduzido .pico-traco,
+.fx-reduzido .pico-lista {
+  display: none;
+}
+.fx-reduzido .pico-etapas {
+  display: block;
+  margin-top: 40px;
+}
+.fx-reduzido .pico .pico-etapas .fx-etapa {
+  margin: 0 0 64px;
+  transform: none;
+  pointer-events: auto;
+}
+.fx-reduzido .pico-mini {
+  display: block;
+  width: min(100%, 360px);
+  margin-bottom: 16px;
+}
+.fx-reduzido .varal .fx-palco {
+  padding: 0 6vw 104px;
+}
+.fx-reduzido .varal [data-fx="trilho"] {
+  gap: 24px;
+}
+.fx-reduzido .varal-fio,
+.fx-reduzido .pregador,
+.fx-reduzido .varal-vazio,
+.fx-reduzido .varal-fundo {
+  display: none;
+}
+.fx-reduzido .varal-cartao {
+  margin: 0;
+  rotate: none;
+}
+.fx-reduzido .varal-texto {
+  margin: 0;
+  width: 100%;
+}
